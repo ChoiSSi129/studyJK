@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>데이터 타입과 변수, 객체</title>
+</head>
+<body>
+
+<script>
+// 데이터 타입의 종류
+var number = 123;
+var string = "string";
+var boolean = true;
+var nullType = null;
+var undefinedType = undefined;
+
+// 객체 Object
+
+// 객체 선언 방식
+var obj1 = new Object();
+var obj2 = {};
+var obj3 = {
+    name: "김정기",
+    age: 32,
+    male: "남자"
+};
+
+// Array 지원 Method 참고 URL - https://www.w3schools.com/jsref/jsref_push.asp
+var arr1 = new Array();
+var arr2 = [];
+var arr3 = [
+    "김정기",
+    "최재훈"
+];
+
+var obj4 = {
+    peoples: [
+        { name: "김정기", age: 32, male: "남자" },
+        { name: "최재훈", age: 32, male: "남자" },
+    ]  
+};
+
+var arr4 = [
+    { name: "김정기", age: 32, male: "남자" },
+    { name: "최재훈", age: 32, male: "남자" }
+];
+
+arr4.push({ name:"김낙운", age: 34, male: "남자" });
+console.log(arr4)
+
+</script>
+</body>
+</html>
