@@ -24,7 +24,7 @@ add2(3, 5);
 
 // 3번째 즉시실행 함수
 (function () {
-  console.log("add")
+  // console.log("add")
 })();
 
 // 객체 함수
@@ -40,7 +40,7 @@ var toggle = {
     this.isClick = true;
   }
 };
-console.log("toggle", toggle);
+// console.log("toggle", toggle);
 toggle.init();
 
 // 생성자 함수
@@ -56,13 +56,13 @@ var toggle2 = new function () {
       this.isClick = true;
     }
 };
-console.log("toggle2", toggle2);
+// console.log("toggle2", toggle2);
 toggle2.init();
 
 // ES6 Arrow function
 // babel 트렌스 파일링 필요
 var arrowFunc = () => {
-  console.log("ArrowFunction");
+  // console.log("ArrowFunction");
 }
 arrowFunc();
 
