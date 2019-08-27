@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>sample2</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style>
+.tabListWrap,
+.tab {margin-top:30px;}
+.tab:first-child {margin-top:0;}
+.tab .tabCtrlWrap {}
+.tab .tabCtrlWrap .tabCtrl {}
+.tab .tabViewWrap {}
+.tab .tabViewWrap .tabView {display:none;width:300px;height:300px;border:1px solid #000;}
+.tab .tabViewWrap .tabView:first-child {display:block;}
+</style>
+</head>
+<body>
+<div>
+    <button type="button" class="btnAddTab">탭 비동기 추가</button>
+</div>
+
+<div class="tabListWrap">
+
+</div>
+
+<script>
+var app = app || {};
+app.hasJqueryObject = function($el) {return $el.length > 0;};
+
+app.tab = {
+    init: function() {
+        this.addEvents();
+    },
+
+    addEvents: function() {
+        app.$body.on("click.tab", ".tab .tabCtrl", this.handleTabClick);
+    },
+
+    handleTabClick: function(){
+        var $tab = app.$body.find(".tab");
+        var $tabCtrl = $(this);
+        var $tabView = $tab.find(".tabView");
+        var tabIdx = $(this).closest(".tab").index();
+        var ctrlIdx = $tabCtrl.index();
+        console.log(tabIdx, ctrlIdx);
+        $tab.eq(tabIdx).find($tabView).hide();
+        $tab.eq(tabIdx).find($tabView).eq(ctrlIdx).show();
+        $tab.eq(tabIdx).find($tabCtrl).removeClass("on");
+        $tab.eq(tabIdx).find($tabCtrl).eq(ctrlIdx).addClass("on");
+    }
+};
+
+// 탭 비동기 추가
+app.addTab = {
+    init: function() {
+        this.createSelector();
+        this.addEvents();
+    },
+
+    createSelector: function() {
+        this.$btnAddTab = app.$body.find(".btnAddTab");
+    },
+
+    addEvents: function() {
+        this.$btnAddTab.on("click.addTab", this.handleAddTabClick);
+    },
+
+    setHTML: function() {
+        var html = "";
+        html += "<div class='tab'>"
+        html += "<div class='tabCtrlWrap'>"
+        html += "<button type='button' class='tabCtrl'>탭버튼1</button>"
+        html += "<button type='button' class='tabCtrl'>탭버튼2</button>"
+        html += "<button type='button' class='tabCtrl'>탭버튼3</button>"
+        html += "</div>"
+        html += "<div class='tabViewWrap'>"
+        html += "<div class='tabView'>탭뷰1</div>"
+        html += "<div class='tabView'>탭뷰2</div>"
+        html += "<div class='tabView'>탭뷰3</div>"
+        html += "</div>"
+        html += "</div>"
+        return html;
+    },
+
+    handleAddTabClick: function() {
+        app.$body.find(".tabListWrap").append(app.addTab.setHTML());
+    }
+};
+
+
+$(function(){
+    app.$body = $("body");
+    if (app.hasJqueryObject(app.$body.find(".tabListWrap"))) app.tab.init();
+    if (app.hasJqueryObject(app.$body.find(".btnAddTab"))) app.addTab.init();
+});
+</script>
+</body>
+</html>

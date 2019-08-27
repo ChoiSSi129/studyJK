@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>sample1</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style>
+.tab {margin-top:30px;}
+.tab:first-child {margin-top:0;}
+.tab .tabCtrlWrap {}
+.tab .tabCtrlWrap .tabCtrl {}
+.tab .tabViewWrap {}
+.tab .tabViewWrap .tabView {display:none;width:300px;height:300px;border:1px solid #000;}
+.tab .tabViewWrap .tabView:first-child {display:block;}
+</style>
+</head>
+<body>
+<div>
+    <button type="button" class="btnAddTab">탭 비동기 추가</button>
+</div>
+
+<div class="tab">
+    <div class="tabCtrlWrap">
+        <button type="button" class="tabCtrl">탭버튼1</button>
+        <button type="button" class="tabCtrl">탭버튼2</button>
+        <button type="button" class="tabCtrl">탭버튼3</button>
+    </div>
+    <div class="tabViewWrap">
+        <div class="tabView">탭뷰1</div>
+        <div class="tabView">탭뷰2</div>
+        <div class="tabView">탭뷰3</div>
+    </div>
+</div>
+
+<div class="tab">
+    <div class="tabCtrlWrap">
+        <button type="button" class="tabCtrl">탭버튼1</button>
+        <button type="button" class="tabCtrl">탭버튼2</button>
+        <button type="button" class="tabCtrl">탭버튼3</button>
+    </div>
+    <div class="tabViewWrap">
+        <div class="tabView">탭뷰1</div>
+        <div class="tabView">탭뷰2</div>
+        <div class="tabView">탭뷰3</div>
+    </div>
+</div>
+
+<script>
+var app = app || {};
+app.hasJqueryObject = function($el) {return $el.length > 0;};
+
+app.tab = {
+    init: function() {
+        this.reset();
+    },
+
+    createSelector: function(){
+        this.$tab = app.$body.find(".tab");
+        this.$tabCtrl = this.$tab.find(".tabCtrl");
+        this.$tabView = this.$tab.find(".tabView");
+    },
+
+    reset: function(){
+        this.createSelector();
+        this.$tab.each(function(idx) {
+            var that = $(this);
+            that.attr("data-tab", idx).find(app.tab.$tabCtrl).each(function(_idx) {
+                $(this).attr("data-ctrl", _idx);
+            });
+            that.find(app.tab.$tabCtrl).eq(0).addClass("on");
+        });
+        this.addEvents();
+    },
+
+    addEvents: function() {
+        this.$tabCtrl.off("click.tab").on("click.tab", this.handleTabClick);
+    },
+
+    handleTabClick: function(){
+        var tabIdx = $(this).parents(".tab").attr("data-tab");
+        var ctrlIdx = $(this).attr("data-ctrl");
+        console.log(tabIdx, ctrlIdx);
+        app.tab.$tab.eq(tabIdx).find(app.tab.$tabView).hide();
+        app.tab.$tab.eq(tabIdx).find(app.tab.$tabView).eq(ctrlIdx).show();
+        app.tab.$tab.eq(tabIdx).find(app.tab.$tabCtrl).removeClass("on");
+        app.tab.$tab.eq(tabIdx).find(app.tab.$tabCtrl).eq(ctrlIdx).addClass("on");
+    }
+};
+
+// 탭 비동기 추가
+app.addTab = {
+    init: function() {
+        this.createSelector();
+        this.addEvents();
+    },
+
+    createSelector: function() {
+        this.$btnAddTab = app.$body.find(".btnAddTab");
+    },
+
+    addEvents: function() {
+        this.$btnAddTab.on("click.addTab", this.handleAddTabClick);
+    },
+
+    setHTML: function() {
+        var html = "";
+        html += "<div class='tab'>"
+        html += "<div class='tabCtrlWrap'>"
+        html += "<button type='button' class='tabCtrl'>탭버튼1</button>"
+        html += "<button type='button' class='tabCtrl'>탭버튼2</button>"
+        html += "<button type='button' class='tabCtrl'>탭버튼3</button>"
+        html += "</div>"
+        html += "<div class='tabViewWrap'>"
+        html += "<div class='tabView'>탭뷰1</div>"
+        html += "<div class='tabView'>탭뷰2</div>"
+        html += "<div class='tabView'>탭뷰3</div>"
+        html += "</div>"
+        html += "</div>"
+        return html;
+    },
+
+    handleAddTabClick: function() {
+        app.$body.append(app.addTab.setHTML());
+        app.tab.reset();
+    }
+};
+
+
+$(function(){
+    app.$body = $("body");
+    if (app.hasJqueryObject(app.$body.find(".tab"))) app.tab.init();
+    if (app.hasJqueryObject(app.$body.find(".btnAddTab"))) app.addTab.init();
+});
+</script>
+</body>
+</html>
