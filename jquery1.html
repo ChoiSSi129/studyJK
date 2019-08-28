@@ -26,11 +26,16 @@
   });
 
   $(window).on("unload", function(){
-
+    
   });
 
   // $를 함수 내부의 지역 변수로 정의하여 사용 $의 중첩사용을 예방
   (function($){
+    function asd(){}
+    
+    $(function(){
+      asd()
+    });
 
   })(jQuery);
   
