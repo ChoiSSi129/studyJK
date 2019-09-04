@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>슬라이드</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style>
+    .slideBox {width:100px;height:125px;overflow:hidden;position:relative;}
+    .slideBox .slideWrap {width:300px;height:100px;position:absolute;top:0;left:0;}
+    .slideBox .btnWrap {position:absolute;bottom:0;}
+    .slideWrap:after {content:'';display:block;clear:both;}
+    .slideWrap .slide {width:100px;height:100px;float:left;}
+    .slideWrap .slide:nth-child(1) {background-color:red;}
+    .slideWrap .slide:nth-child(2) {background-color:black;}
+    .slideWrap .slide:nth-child(3) {background-color:blue;}
+
+</style>
+<script>
+    var app = app || {};
+    app.hasJqueryObject = function($el){return $el.length > 0;}
+
+    app.slide = {
+        init : function(){
+            this.addEvents();
+        },
+
+        createSelector : function(){
+            this.$slideBox = app.$body.find('.slideBox');
+            this.$slideWrap = this.$slideBox.find('.slideWrap');
+            this.$btnWrap = this.$slideBox.find('.btnWrap')
+            this.$btn = this.$btnWrap.find('button')
+            this.$btnPrev = this.$slideBox.find('.btnPrev');
+            this.$btnNext = this.$slideBox.find('.btnNext');
+        },
+
+        addEvents : function(){
+            this.createSelector();
+            var wid = 100;
+            this.$btn.off('click').on('click', this.slideClickEvents);
+        },
+
+        slideClickEvents : function(){
+            var btnDirection = $(this).attr('class');
+            var slideWrap = app.slide.$slideWrap;
+            var slideWrapPoition = app.slide.$slideWrap.css('left');
+
+            switch(btnDirection){
+                case 'btnPrev' : 
+                console.log('prev')   ;
+                slideWrap.animate({"left":"+=100"}, 500); 
+                if(slideWrapPosition === 0) slideWrap.animate({"left" : "200"}, 500);
+                break;  
+
+                case 'btnNext' : 
+                console.log('next');
+                slideWrap.animate({"left":"-=100"}, 500);
+                break;
+
+            }
+
+           /*  if (btnDirection === 'btnPrev'){
+                console.log('prev')   ;
+                slideWrap.animate({"left":"+=100"}, 500);    
+            };
+            if (btnDirection === 'btnNext') {
+                console.log('next');
+                slideWrap.animate({"left":"-=100"}, 500);
+            }; */
+        },
+    }
+
+    $(function(){
+    app.$body = $("body");
+        if (app.hasJqueryObject(app.$body.find(".slide"))) app.slide.init();
+    });
+</script>
+</head>
+<body>
+
+<div class="slideBox">
+    <div class="slideWrap">
+        <div class="slide">1</div>
+        <div class="slide">2</div>
+        <div class="slide">3</div>
+    </div>
+
+    <div class="btnWrap">
+        <button class="btnPrev">이전</button>
+        <button class="btnNext">다음</button>
+    </div>
+</div>
+</body>
+</html>
