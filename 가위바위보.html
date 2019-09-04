@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>sample1</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    function playGame(choice) {
+        with (document.game) {
+            var comp = Math.floor(Math.random() * 3) + 1;
+            
+            var choiceName;
+            if(comp == 1) choiceName = "바위";
+            if(comp == 2) choiceName = "보";
+            if(comp == 3) choiceName = "가위";
+
+            msg.value = "컴퓨터는" + choiceName + ";";
+
+            switch(choice){
+                case 1 : 
+                if (comp == 1){
+                    draw.value++; msg.value += "무승부!";
+                    break;
+                }
+                
+                if (comp == 2){
+                    loss.value++; msg.value += "패배!";
+                    break;
+                }
+                
+                if (comp == 3){
+                    win.value++; msg.value += "승리!";
+                    break;
+                }
+
+                case 2 : 
+                if (comp == 1){
+                    win.value++;msg.value += "승리!";
+                    break;
+                }
+                
+                if (comp == 2){
+                    draw.value++;msg.value += "무승부!";
+                    break;
+                }
+                
+                if (comp == 3){
+                    loss.value++;msg.value += "패배!";
+                    break;
+                }
+
+                case 3 : 
+                if (comp == 1){
+                    win.value++;msg.value += "패배!";
+                    break;
+                }
+
+                if (comp == 2){
+                    draw.value++;msg.value += "승리!";
+                    break;
+                }
+
+                if (comp == 3){
+                    loss.value++;msg.value += "무승부!";
+                    break;
+                }
+
+                msg.value += " 계속!";
+            }
+
+        }
+    }
+</script>
+</head>
+<body>
+    <p>가위바위보</p>
+    <form action="" name="game">
+        <div class="">
+            <div>
+                <button type="button" onClick="playGame(3);">가위</button>
+                <button type="button" onClick="playGame(1);">바위</button>
+                <button type="button" onClick="playGame(2);">보</button>
+            </div>
+            <div>
+                <input type="text" name = "msg">
+            </div>
+            <div>
+                승 : <input type="text" name="win" readonly value = "0" >,
+                무 : <input type="text" name="draw" readonly value = "0" >,
+                패 : <input type="text" name="loss" readonly value = "0" >
+            </div>
+        </div>
+    </form>
+</body>
+</html>

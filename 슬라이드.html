@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>슬라이드</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style>
+    .slideBox {}
+    .slideBox .slideWrap {position:relative;overflow:hidden;width:100px;height:100px;}
+    .slideWrap:after {content:'';display:block;clear:both;}
+    .slideWrap .slide {position:absolute;top:0;left:100px;width:100px;height:100px;}
+    .slideWrap .slide:first-child {left:0;}
+    .slideWrap .slide:nth-child(1) {background-color:red;}
+    .slideWrap .slide:nth-child(2) {background-color:black;}
+    .slideWrap .slide:nth-child(3) {background-color:blue;}
+
+</style>
+<script>
+    var app = app || {};
+    app.hasJqueryObject = function($el){return $el.length > 0;}
+
+    app.slide = {
+        init : function(){
+            this.reset();
+            this.addEvents();
+        },
+
+        createSelector : function(){
+            this.$slideBox = app.$body.find('.slideBox');
+            this.$slide = this.$slideBox.find(".slide");
+            this.$btnCount = this.$slideBox.find(".btnCount");
+            this.$btnPrev = this.$slideBox.find('.btnPrev');
+            this.$btnNext = this.$slideBox.find('.btnNext');
+            this.slideWidth = this.$slide.width();
+        },
+
+        reset: function(){
+            this.createSelector();
+            this.$slideBox.each(function(idx){
+                $(this).attr("data-idx", idx).find(".btnCount").each(function(_idx){
+                    $(this).attr("data-countIdx", _idx);
+                });
+                $(this).find(".btnCount").eq(0).addClass("on");
+            });
+        },
+
+        addEvents : function(){
+            // this.$btn.off('click').on('click', this.slideClickEvents);
+            this.$btnCount.on("click", this.handleCountClick);
+            this.$btnPrev.on("click", this.slideClickEvents);
+            this.$btnNext.on("click", this.slideClickEvents);
+        },
+
+        handleCountClick: function(){
+            app.slide.idx = app.slide.$btnCount.parents(".slideBox").attr("data-idx");
+            app.slide.onIdx = app.slide.$slideBox.find(".btnCount.on").attr("data-countIdx");
+            app.slide.clickIdx = $(this).attr("data-countIdx");
+            // console.log(app.slide.idx, app.slide.onIdx, app.slide.clickIdx);
+            app.slide.slideMove(app.slide.idx, app.slide.onIdx, app.slide.clickIdx);
+        },
+
+        slideMove: function(idx, onIdx, countIdx){
+            if (app.slide.$slideBox.eq(idx).find(app.slide.$btnCount).eq(countIdx).hasClass("on")) return;
+            var pos = countIdx > onIdx ? -app.slide.slideWidth : app.slide.slideWidth;
+            app.slide.$slideBox.eq(idx).find(app.slide.$btnCount).removeClass("on");
+            app.slide.$slideBox.eq(idx).find(app.slide.$btnCount).eq(countIdx).addClass("on");
+            app.slide.$slideBox.eq(idx).find(app.slide.$slide).eq(onIdx).animate({
+                "left" : pos
+            }, 300, function(){
+                app.slide.$slideBox.eq(idx).find(app.slide.$slide).eq(onIdx).css("left", pos);
+            });
+            app.slide.$slideBox.eq(idx).find(app.slide.$slide).eq(countIdx).animate({
+                "left" : 0
+            }, 300);
+        },
+
+        slideClickEvents : function(){
+            var slideIdx = $(this).parents(".slideBox").attr("data-idx");
+            var onIdx = parseInt(app.slide.$slideBox.find(".btnCount.on").attr("data-countIdx"));
+            var clickIdx = $(this).hasClass("btnNext") ? onIdx += 1 : onIdx -= 1;
+
+            console.log(slideIdx, onIdx, clickIdx);
+            app.slide.slideMove(slideIdx, onIdx, clickIdx);
+
+            // if ($(this).hasClass("btnNext")) {
+            //     onIdx += 1;
+            //     console.log("next", onIdx)
+            // } else {
+            //     onIdx -= 1;
+            //     console.log("prev", onIdx)
+            // }
+
+            // var btnDirection = $(this).attr('class');
+            // var slideWrap = app.slide.$slideWrap;
+            // var slideWrapPoition = app.slide.$slideWrap.css('left');
+
+            // switch(btnDirection){
+            //     case 'btnPrev' : 
+            //     console.log('prev')   ;
+            //     slideWrap.animate({"left":"+=100"}, 500); 
+            //     if(slideWrapPosition === 0) slideWrap.animate({"left" : "200"}, 500);
+            //     break;  
+
+            //     case 'btnNext' : 
+            //     console.log('next');
+            //     slideWrap.animate({"left":"-=100"}, 500);
+            //     break;
+
+            // }
+
+           /*  if (btnDirection === 'btnPrev'){
+                console.log('prev')   ;
+                slideWrap.animate({"left":"+=100"}, 500);    
+            };
+            if (btnDirection === 'btnNext') {
+                console.log('next');
+                slideWrap.animate({"left":"-=100"}, 500);
+            }; */
+        },
+    }
+
+    $(function(){
+    app.$body = $("body");
+        if (app.hasJqueryObject(app.$body.find(".slide"))) app.slide.init();
+    });
+</script>
+</head>
+<body>
+
+<div class="slideBox">
+    <div class="slideWrap">
+        <div class="slide">1</div>
+        <div class="slide">2</div>
+        <div class="slide">3</div>
+    </div>
+
+    <div class="count">
+        <button class="btnCount">슬라이드1</button>
+        <button class="btnCount">슬라이드2</button>
+        <button class="btnCount">슬라이드3</button>
+    </div>
+
+    <div class="btnWrap">
+        <button class="btnPrev">이전</button>
+        <button class="btnNext">다음</button>
+    </div>
+</div>
+</body>
+</html>

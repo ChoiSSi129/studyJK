@@ -4,9 +4,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>함수</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
-
+<button class="btn">asdasd</button>
+<video src="" class="videoTest"></video>
 <script>
 // 함수 선언 종류
 // 첫번째
@@ -23,24 +25,38 @@ add2(3, 5);
 
 // 3번째 즉시실행 함수
 (function () {
-  // console.log("add")
+  console.log("add")
 })();
 
 // 객체 함수
 var toggle = {
-  isClick: false,
+  //객체 = {속성(프로퍼티) : 값, 속성(메서드) : 함수}
+  //isClick, init, addEvents, handleClick을 속성(프로퍼티)라고 하고
+  //함수가 들어간 프로퍼티는 메소드라고 한다.
+
+  isClick: false,   
 
   init: function () {
-    this.click();
-    console.log(this.isClick);
+    // this.$btn = $(".btn");
+    this.addEvents()
+    // console.log(this.isClick);
   },
 
-  click: function () {
+  addEvents: function(){
+    $(".btn").on("click", function(){
+      console.log(this);
+      toggle.handleClick();
+    });
+  },
+
+  handleClick: function () {
     this.isClick = true;
-  }
+    console.log("click")
+  },
 };
 // console.log("toggle", toggle);
 toggle.init();
+console.log("toggle", toggle);
 
 // 생성자 함수
 var toggle2 = new function () {
@@ -48,13 +64,14 @@ var toggle2 = new function () {
 
   this.init = function () {
       this.click();
-      console.log(this.isClick)
+      // console.log(this.isClick)
     },
 
   this.click = function () {
       this.isClick = true;
     }
 };
+console.log("toggle2",toggle2)
 // console.log("toggle2", toggle2);
 toggle2.init();
 
@@ -64,6 +81,36 @@ var arrowFunc = () => {
   // console.log("ArrowFunction");
 }
 arrowFunc();
+
+function testSwitch(val){
+  var string = "";
+  // if(val === 1) {
+  //   string = "김정기"
+  // } else if (val === 2) {
+  //   string = "최재훈"
+  // }
+  switch(val){
+    case 1:
+    string = "김정기";
+      break;
+    case 2:
+    string = "최재훈";
+      break;
+  }
+  // val === 1 ? string = "김정기" : string = "최재훈";
+  return string;
+}
+
+var arr2 = []
+for(var i = 0; i < arr.length; i++){
+  // arr[i].name
+  // if (arr[i].name) {
+  //   arr2.push({ name:arr[i].name });
+  // }
+};
+
+console.log(testSwitch(1));
+
 
 
 </script>

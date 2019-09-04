@@ -4,9 +4,10 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>데이터 타입과 변수, 객체</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
-    커밋 테스트
+<button class="btnToggle">버튼</button>
 <script>
 // 데이터 타입의 종류
 var number = 123;
@@ -14,6 +15,25 @@ var string = "string";
 var boolean = true;
 var nullType = null;
 var undefinedType = undefined;
+var isToggle = false;
+
+$(".btnToggle").on("click", function(){
+    if (!isToggle) {
+        isToggle = true;
+        console.log("열림", isToggle);
+    } else {
+        isToggle = false;
+        console.log("닫힘", isToggle);
+    }
+})
+
+// console.log(typeof number);
+
+if(undefinedType === undefined) {
+    console.log("true")
+} else {
+    console.log("false")
+}
 
 // 객체 Object
 
@@ -25,6 +45,7 @@ var obj3 = {
     age: 32,
     male: "남자"
 };
+
 
 // Array 지원 Method 참고 URL - https://www.w3schools.com/jsref/jsref_push.asp
 var arr1 = new Array();
@@ -41,13 +62,26 @@ var obj4 = {
     ]  
 };
 
+var test1234 = {
+    obj1: { name: "김정기", age: 32, male: "남자" },
+    obj2: { name: "최재훈", age: 32, male: "남자" },
+}
+
 var arr4 = [
     { name: "김정기", age: 32, male: "남자" },
     { name: "최재훈", age: 32, male: "남자" }
 ];
 
+for(var key in test1234){
+    console.log(test1234[key]);
+}
+
 arr4.push({ name:"김낙운", age: 34, male: "남자" });
-console.log(arr4)
+console.log(arr4);
+
+// 과제 묵찌빠
+
+
 
 </script>
 </body>

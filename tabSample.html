@@ -44,11 +44,54 @@
         <div class="tabView">탭뷰2</div>
         <div class="tabView">탭뷰3</div>
     </div>
+
+    <!-- <div class="btnWrap">
+        <button class="btnPrev">이전</button>
+        <button class="btnNext">다음</button>
+    </div> -->
 </div>
 
 <script>
 var app = app || {};
-app.hasJqueryObject = function($el) {return $el.length > 0;};
+app.hasJqueryObject = function($el) {
+    return $el.length > 0;
+};
+
+// app.tab2 = {
+//     init: function(){
+//         this.createSelector();
+//         this.reset();
+//         this.addEvents();
+//     },
+
+//     createSelector: function(){
+//         this.$tab = app.$body.find(".tab");
+//         this.$tabCtrl = this.$tab.find(".tabCtrl");
+//         this.$tabView = this.$tab.find(".tabView");
+//     },
+
+//     reset: function(){
+//         this.$tab.each(function(idx) {
+//             $(this).find(".tabCtrl").eq(0).addClass("on");
+//             $(this).attr("data-idx", idx).find(".tabCtrl").each(function(_idx){
+//                 $(this).attr("data-ctrlIdx", _idx);
+//             });
+//         });
+//     },
+
+//     addEvents: function(){
+//         this.$tabCtrl.on("click.tab2", this.handleTabClick);
+//     },
+
+//     handleTabClick: function(){
+//         var tabIdx = $(this).parents(".tab").attr("data-idx");
+//         var ctrlIdx = $(this).attr("data-ctrlIdx");
+//         app.tab2.$tab.eq(tabIdx).find(app.tab2.$tabCtrl).removeClass("on");
+//         $(this).addClass("on");
+//         app.tab2.$tab.eq(tabIdx).find(app.tab2.$tabView).hide();
+//         app.tab2.$tab.eq(tabIdx).find(app.tab2.$tabView).eq(ctrlIdx).show();
+//     }
+// }
 
 app.tab = {
     init: function() {
@@ -126,10 +169,10 @@ app.addTab = {
     }
 };
 
-
 $(function(){
     app.$body = $("body");
     if (app.hasJqueryObject(app.$body.find(".tab"))) app.tab.init();
+    // if (app.hasJqueryObject(app.$body.find(".tab"))) app.tab2.init();
     if (app.hasJqueryObject(app.$body.find(".btnAddTab"))) app.addTab.init();
 });
 </script>
