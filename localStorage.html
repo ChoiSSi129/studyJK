@@ -36,15 +36,18 @@
 
 
     // 2. 함수형태로 작성 하여 사용
-    // app.localStorageManager = {
-    //   set: function (key, value) {
-    //     localStorage.setItem(key, value);
-    //   },
-    //   get: function (key) {
-    //     var getItem = localStorage.getItem(key);
-    //     return getItem;
-    //   }
-    // };
+    app.localStorageManager = {
+      set: function (key, value) {
+        localStorage.setItem(key, value);
+      },
+      get: function (key) {
+        var getItem = localStorage.getItem(key);
+        return getItem;
+      },
+      remove: function (key) {
+        localStorage.removeItem(key);
+      }
+    };
 
     // app.localStorageManager.set("test", "testFunction");
     // console.log(app.localStorageManager.get("test"));
@@ -82,34 +85,34 @@
 
     // 5. 저장된 값 사용시
     // JSON.parse()를 활용하여 문자열로 저장된 데이터를 객체로 변환 하여 사용
-    // var parseData = JSON.parse(app.localStorageManager.get("objData"));
-    // console.log(parseData);
+    var parseData = JSON.parse(app.localStorageManager.get("objData"));
+    console.log(parseData);
 
 
     // 6. 데이터를 활용한 html에 적용
-    // app.dataTest = {
-    //   init: function () {
-    //     this.setHTML();
-    //   },
+    app.dataTest = {
+      init: function () {
+        this.setHTML();
+      },
 
-    //   setHTML: function () {
-    //     var html = "";
-    //     html += "<ul>";
-    //     for (var i = 0; i < parseData.items.length; i++) {
-    //       html += "<li>"
-    //       html += "<p class='name'>" + parseData.items[i].name + "</p>"
-    //       html += "<p class='age'>" + parseData.items[i].age + "</p>"
-    //       html += "<p class='male'>" + parseData.items[i].male + "</p>"
-    //       html += "</li>";
-    //     }
-    //     html += "</ul>";
-    //     app.$body.find(".insertData").append(html);
-    //   }
-    // };
+      setHTML: function () {
+        var html = "";
+        html += "<ul>";
+        for (var i = 0; i < parseData.items.length; i++) {
+          html += "<li>"
+          html += "<p class='name'>" + parseData.items[i].name + "</p>"
+          html += "<p class='age'>" + parseData.items[i].age + "</p>"
+          html += "<p class='male'>" + parseData.items[i].male + "</p>"
+          html += "</li>";
+        }
+        html += "</ul>";
+        app.$body.find(".insertData").append(html);
+      }
+    };
 
     $(function () {
       app.$body = $("body");
-      // if (app.hasJqueryObject(app.$body.find(".insertData"))) app.dataTest.init();
+      if (app.hasJqueryObject(app.$body.find(".insertData"))) app.dataTest.init();
     });
   </script>
 </body>
