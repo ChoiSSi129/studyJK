@@ -19,3 +19,19 @@
 
 - 로컬 저장소 (sessionStorage, localStorage)
 ```
+
+## VSCODE Git 사용법
+```
+git clone cloneURL
+
+1. vscode git 소스제어 탭에서 상단 ... 버튼 클릭 후 동기화 클릭
+2. 동기화 후 작업 진행
+3. 진행내용 업로드 시 git 소스제어 탭에서 변경내용 모든 변경내용 스테이징 선택 후 커밋 메시지 입력
+4. 커밋버튼 클릭
+5. ... 메뉴에서 다음으로 푸시 클릭
+
+master 소스 병합하기
+master -> jungki - git merge master
+jungki -> master - git merge jungki
+
+```
