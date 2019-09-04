@@ -6,11 +6,11 @@
 <title>슬라이드</title>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style>
-    .slideBox {width:100px;height:125px;overflow:hidden;position:relative;}
-    .slideBox .slideWrap {width:300px;height:100px;position:absolute;top:0;left:0;}
-    .slideBox .btnWrap {position:absolute;bottom:0;}
+    .slideBox {}
+    .slideBox .slideWrap {position:relative;overflow:hidden;width:100px;height:100px;}
     .slideWrap:after {content:'';display:block;clear:both;}
-    .slideWrap .slide {width:100px;height:100px;float:left;}
+    .slideWrap .slide {position:absolute;top:0;left:100px;width:100px;height:100px;}
+    .slideWrap .slide:first-child {left:0;}
     .slideWrap .slide:nth-child(1) {background-color:red;}
     .slideWrap .slide:nth-child(2) {background-color:black;}
     .slideWrap .slide:nth-child(3) {background-color:blue;}
@@ -22,42 +22,92 @@
 
     app.slide = {
         init : function(){
+            this.reset();
             this.addEvents();
         },
 
         createSelector : function(){
             this.$slideBox = app.$body.find('.slideBox');
-            this.$slideWrap = this.$slideBox.find('.slideWrap');
-            this.$btnWrap = this.$slideBox.find('.btnWrap')
-            this.$btn = this.$btnWrap.find('button')
+            this.$slide = this.$slideBox.find(".slide");
+            this.$btnCount = this.$slideBox.find(".btnCount");
             this.$btnPrev = this.$slideBox.find('.btnPrev');
             this.$btnNext = this.$slideBox.find('.btnNext');
+            this.slideWidth = this.$slide.width();
+        },
+
+        reset: function(){
+            this.createSelector();
+            this.$slideBox.each(function(idx){
+                $(this).attr("data-idx", idx).find(".btnCount").each(function(_idx){
+                    $(this).attr("data-countIdx", _idx);
+                });
+                $(this).find(".btnCount").eq(0).addClass("on");
+            });
         },
 
         addEvents : function(){
-            this.createSelector();
-            var wid = 100;
-            this.$btn.off('click').on('click', this.slideClickEvents);
+            // this.$btn.off('click').on('click', this.slideClickEvents);
+            this.$btnCount.on("click", this.handleCountClick);
+            this.$btnPrev.on("click", this.slideClickEvents);
+            this.$btnNext.on("click", this.slideClickEvents);
+        },
+
+        handleCountClick: function(){
+            app.slide.idx = app.slide.$btnCount.parents(".slideBox").attr("data-idx");
+            app.slide.onIdx = app.slide.$slideBox.find(".btnCount.on").attr("data-countIdx");
+            app.slide.clickIdx = $(this).attr("data-countIdx");
+            // console.log(app.slide.idx, app.slide.onIdx, app.slide.clickIdx);
+            app.slide.slideMove(app.slide.idx, app.slide.onIdx, app.slide.clickIdx);
+        },
+
+        slideMove: function(idx, onIdx, countIdx){
+            if (app.slide.$slideBox.eq(idx).find(app.slide.$btnCount).eq(countIdx).hasClass("on")) return;
+            var pos = countIdx > onIdx ? -app.slide.slideWidth : app.slide.slideWidth;
+            app.slide.$slideBox.eq(idx).find(app.slide.$btnCount).removeClass("on");
+            app.slide.$slideBox.eq(idx).find(app.slide.$btnCount).eq(countIdx).addClass("on");
+            app.slide.$slideBox.eq(idx).find(app.slide.$slide).eq(onIdx).animate({
+                "left" : pos
+            }, 300, function(){
+                app.slide.$slideBox.eq(idx).find(app.slide.$slide).eq(onIdx).css("left", pos);
+            });
+            app.slide.$slideBox.eq(idx).find(app.slide.$slide).eq(countIdx).animate({
+                "left" : 0
+            }, 300);
         },
 
         slideClickEvents : function(){
-            var btnDirection = $(this).attr('class');
-            var slideWrap = app.slide.$slideWrap;
-            var slideWrapPoition = app.slide.$slideWrap.css('left');
+            var slideIdx = $(this).parents(".slideBox").attr("data-idx");
+            var onIdx = parseInt(app.slide.$slideBox.find(".btnCount.on").attr("data-countIdx"));
+            var clickIdx = $(this).hasClass("btnNext") ? onIdx += 1 : onIdx -= 1;
 
-            switch(btnDirection){
-                case 'btnPrev' : 
-                console.log('prev')   ;
-                slideWrap.animate({"left":"+=100"}, 500); 
-                if(slideWrapPosition === 0) slideWrap.animate({"left" : "200"}, 500);
-                break;  
+            console.log(slideIdx, onIdx, clickIdx);
+            app.slide.slideMove(slideIdx, onIdx, clickIdx);
 
-                case 'btnNext' : 
-                console.log('next');
-                slideWrap.animate({"left":"-=100"}, 500);
-                break;
+            // if ($(this).hasClass("btnNext")) {
+            //     onIdx += 1;
+            //     console.log("next", onIdx)
+            // } else {
+            //     onIdx -= 1;
+            //     console.log("prev", onIdx)
+            // }
 
-            }
+            // var btnDirection = $(this).attr('class');
+            // var slideWrap = app.slide.$slideWrap;
+            // var slideWrapPoition = app.slide.$slideWrap.css('left');
+
+            // switch(btnDirection){
+            //     case 'btnPrev' : 
+            //     console.log('prev')   ;
+            //     slideWrap.animate({"left":"+=100"}, 500); 
+            //     if(slideWrapPosition === 0) slideWrap.animate({"left" : "200"}, 500);
+            //     break;  
+
+            //     case 'btnNext' : 
+            //     console.log('next');
+            //     slideWrap.animate({"left":"-=100"}, 500);
+            //     break;
+
+            // }
 
            /*  if (btnDirection === 'btnPrev'){
                 console.log('prev')   ;
@@ -83,6 +133,12 @@
         <div class="slide">1</div>
         <div class="slide">2</div>
         <div class="slide">3</div>
+    </div>
+
+    <div class="count">
+        <button class="btnCount">슬라이드1</button>
+        <button class="btnCount">슬라이드2</button>
+        <button class="btnCount">슬라이드3</button>
     </div>
 
     <div class="btnWrap">
