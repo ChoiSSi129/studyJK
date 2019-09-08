@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>가위바위보</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+
+<body>
+    <div class="game">
+        <div class="userCtrl">
+            <button type="button" data-ctrlKey="0" class="btnCtrl">가위</button>
+            <button type="button" data-ctrlKey="1" class="btnCtrl">바위</button>
+            <button type="button" data-ctrlKey="2" class="btnCtrl">보</button>
+        </div>
+
+        <div class="resultView">
+            <p class="computer">컴퓨터 :</p>
+            <p class="user">유저 : </p>
+            <p class="result">결과 : </p>
+        </div>
+
+        <p class="count">승리 : 0, 패배 : 0, 무승부 : 0</p>
+
+        <button type="button" class="btnReset">초기화</button>
+    </div>
+
+    <script>
+        var app = app || {};
+        app.hasJqueryObject = function ($el) {
+            return $el.length > 0;
+        }
+
+        // 가위 - 0
+        // 바위 - 1
+        // 보 - 2
+
+        app.game = {
+            init: function () {
+                this.createdSelector();
+                this.reset();
+                this.addEvents();
+            },
+
+            createdSelector: function () {
+                this.$game = app.$body.find(".game");
+                this.$ctrl = this.$game.find(".btnCtrl");
+                this.$resultView = this.$game.find(".resultView");
+                this.$count = this.$game.find(".count");
+                this.$btnReset = this.$game.find(".btnReset");
+                this.text = {
+                    computer: "",
+                    user: "",
+                    result: ""
+                };
+                this.case = ["가위", "바위", "보"];
+                this.count = {
+                    win: 0,
+                    lose: 0,
+                    draw: 0
+                };
+            },
+
+            reset: function () {
+                app.game.text.computer = "";
+                app.game.text.user = "";
+                app.game.text.result = "";
+                app.game.count.win = 0;
+                app.game.count.lose = 0;
+                app.game.count.draw = 0;
+                app.game.setView();
+                app.game.setCount();
+            },
+
+            addEvents: function () {
+                this.$ctrl.on("click.game", this.handleCtrlClick);
+                this.$btnReset.on("click.reset", this.reset);
+            },
+
+            setView: function () {
+                var html = ""
+                html += "<p class='computer'>컴퓨터 : " + app.game.text.computer + "</p>";
+                html += "<p class='user'>유저 : " + app.game.text.user + "</p>";
+                html += "<p class='result'>결과 : " + app.game.text.result + "</p>";
+                this.$resultView.html("");
+                this.$resultView.append(html);
+            },
+
+            getRamdomKey: function () {
+                var comRandomKey = Math.floor(Math.random() * 3);
+                return comRandomKey;
+            },
+
+            handleCtrlClick: function () {
+                var userKey = parseInt($(this).attr("data-ctrlKey"));
+                var comKey = app.game.getRamdomKey();
+                app.game.setGameRule(userKey, comKey);
+                app.game.setView();
+                app.game.setCount();
+            },
+
+            setGameRule: function (userKey, comKey) {
+                app.game.text.computer = app.game.case[comKey];
+                app.game.text.user = app.game.case[userKey];
+                switch (userKey) {
+                    case 0:
+                        if (comKey === 0) {
+                            app.game.text.result = "무승부";
+                            app.game.count.draw += 1;
+                        } else if (comKey === 1) {
+                            app.game.text.result = "패배";
+                            app.game.count.lose += 1;
+                        } else if (comKey === 2) {
+                            app.game.text.result = "승리";
+                            app.game.count.win += 1;
+                        }
+                        break;
+                    case 1:
+                        if (comKey === 0) {
+                            app.game.text.result = "승리";
+                            app.game.count.win += 1;
+                        } else if (comKey === 1) {
+                            app.game.text.result = "무승부";
+                            app.game.count.draw += 1;
+                        } else if (comKey === 2) {
+                            app.game.text.result = "패배";
+                            app.game.count.lose += 1;
+                        }
+                        break;
+
+                    case 2:
+                        if (comKey === 0) {
+                            app.game.text.result = "패배";
+                            app.game.count.lose += 1;
+                        } else if (comKey === 1) {
+                            app.game.text.result = "승리";
+                            app.game.count.win += 1;
+                        } else if (comKey === 2) {
+                            app.game.text.result = "무승부";
+                            app.game.count.draw += 1;
+                        }
+                        break;
+                }
+            },
+
+            setCount: function () {
+                var text = "승리 : " + app.game.count.win + ", 패배 : " + app.game.count.lose + " , 무승부 : " + app
+                    .game.count.draw;
+                this.$count.html("");
+                this.$count.append(text);
+            }
+        };
+
+        $(function () {
+            app.$body = $("body");
+            if (app.hasJqueryObject(app.$body.find(".game"))) app.game.init();
+        });
+    </script>
+</body>
+
+</html>
