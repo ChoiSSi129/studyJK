@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+
+<body>
+    <p class="data"></p>
+    <script>
+        /* 
+            Ajax
+            비동기 통신을 위한 XMLHttpRequset 객체를 통한 서버와의 통신
+            테스트를 위한 URL - http://sample.bmaster.kro.kr/
+        */
+        $(function () {
+            var sampleURL = "http://sample.bmaster.kro.kr/contacts";
+
+            // javascript에서의 Ajax 통신
+            // var httpRequest = new XMLHttpRequest();
+            // if (!httpRequest) {
+            //     alert('Giving up :( Cannot create an XMLHTTP instance');
+            //     return false;
+            // }
+            // httpRequest.onreadystatechange = consoleContents;
+            // httpRequest.open("GET", sampleURL);
+            // httpRequest.send();
+
+            // function consoleContents() {
+            //     if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            //         if (httpRequest.status === 200) {
+            //             var parseObj = JSON.parse(httpRequest.responseText);
+            //             console.log(parseObj);
+            //         } else {
+            //             console.log("통신 실패")
+            //         }
+            //     }
+            // }
+
+            // Jquery에서의 Ajax 통신
+            // $.ajax({
+            //         url: sampleURL,
+            //         statusCode: {
+            //             200: function () {
+            //                 console.log("통신성공");
+            //             }
+            //         }
+            //     }).done(function (data) {
+            //         console.log(data)
+            //     }).fail(function () {
+            //         console.log("error");
+            //     })
+            //     .always(function () {
+            //         console.log("complete");
+            //     });
+
+            // $.get(sampleURL, {
+            //         pageno: 2,
+            //         pagesize: 4
+            //     }, function (data) {
+            //         console.log(data);
+            //         $(".data").append(JSON.stringify(data));
+            //     }).done(function () {
+            //         console.log("second success");
+            //     })
+            //     .fail(function () {
+            //         console.log("error");
+            //     })
+            //     .always(function () {
+            //         console.log("finished");
+            //     });
+
+            // $.post(sampleURL, )
+
+
+        })
+    </script>
+</body>
+
+</html>
