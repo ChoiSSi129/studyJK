@@ -10,11 +10,16 @@
 
 <body>
     <p class="data"></p>
+    <button type="button" class="btnAdd">연락처 추가</button>
+    <button type="button" class="btnModify">연락처 수정</button>
+    <button type="button" class="btnDelete">연락처 삭제</button>
     <script>
         /* 
+            RESTful API
             Ajax
             비동기 통신을 위한 XMLHttpRequset 객체를 통한 서버와의 통신
             테스트를 위한 URL - http://sample.bmaster.kro.kr/
+            GET, POST, DELETE, PUT
         */
         $(function () {
             var sampleURL = "http://sample.bmaster.kro.kr/contacts";
@@ -42,6 +47,7 @@
 
             // Jquery에서의 Ajax 통신
             // $.ajax({
+            //         method: "GET",
             //         url: sampleURL,
             //         statusCode: {
             //             200: function () {
@@ -57,6 +63,7 @@
             //         console.log("complete");
             //     });
 
+            // GET -> 데이터를 검색하여 해당 값을 받아 올때 사용
             // $.get(sampleURL, {
             //         pageno: 2,
             //         pagesize: 4
@@ -73,9 +80,46 @@
             //         console.log("finished");
             //     });
 
-            // $.post(sampleURL, )
+            // POST -> 새롭게 데이터를 생성 할 때 사용
+            // https://api.jquery.com/jQuery.post/#jQuery-post-url-data-success-dataType
+            // $(".btnAdd").on("click", function(){
+            //     var postData = {
+            //         name: "테스트",
+            //         tel: "010-1234-5678",
+            //         address: "서울"
+            //     }
 
+            //     $.post(sampleURL, postData, function(data){
+            //         console.log(data);
+            //     });
+            // });
+            
+            // PUT -> 데이터를 업데이트 할 때 사용
+            // $(".btnModify").on("click", function(){
+            //     var modifyData = {
+            //         name: "데이터 수정",
+            //         tel: "010-1234-567811",
+            //         address: "서울"
+            //     }
 
+            //     $.ajax({
+            //         method: "PUT",
+            //         url: sampleURL+"/1568547997106",
+            //         data: modifyData
+            //     }).done(function (data) {
+            //         console.log(data)
+            //     });
+            // });
+
+            // DELETE –> 데이터를 삭제 할 때 사용
+            // $(".btnDelete").on("click", function(){
+            //     $.ajax({
+            //         method: "DELETE",
+            //         url: sampleURL+"/1568547997106",
+            //     }).done(function (data) {
+            //         console.log(data)
+            //     });
+            });
         })
     </script>
 </body>
